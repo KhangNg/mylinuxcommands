@@ -1,0 +1,101 @@
+linux commands
+
+clear ram cache:
+sudo sh -c "sync; echo 1 > /proc/sys/vm/drop_caches"
+
+install qemu and virt-manager on ubuntu
+sudo apt install qemu qemu-kvm virt-manager bridge-utils
+sudo useradd -g $USER libvirt
+sudo useradd -g $USER libvirt-kvm
+sudo systemctl status libvirtd
+	if not enable, enable manually
+		sudo systemctl enable libvirtd.service
+		sudo systemctl start libvirtd.service
+		
+install qemu and virt-manager in debian
+sudo apt install qemu-kvm qemu-system qemu-utils python3 python3-pip libvirt-clients libvirt-daemon-system bridge-utils virtinst libvirt-daemon virt-manager -y
+
+vm busybox root data error fix
+(initramfs)exit
+check for error text and see which /dev/folder is required manual fsck
+fsck /dev/sda1
+reboot -f
+
+disable pop!_shop
+mkdir -p ~/.config/autostart
+cp /etc/xdg/autostart/io.elementary.appcenter-daemon.desktop ~/.config/autostart/
+echo "X-GNOME-Autostart-enabled=false" >> ~/.config/autostart/io.elementary.appcenter-daemon.desktop
+	
+install new desktop environment
+sudo tasksel
+
+install nvidia drivers
+first enable DFSG-compatible Software with Non-Free Dependencies (contrib) 
+and enable Non-DFSG-compatible Software (non-free)
+sudo apt install nvidia-driver
+
+install envycontrol - nvidia optimus for hybrid gpus - https://github.com/bayasdev/envycontrol/blob/main/README.md
+download python3-envycontrol_version.deb package
+sudo apt -y install ./python3-envycontrol_version.deb
+run sudo envycontrol -s nvidia to switch graphics modes
+
+install multi-media codec support
+sudo apt install libavcodec-extra
+
+guide for gpu passthrough
+https://mathiashueber.com/pci-passthrough-ubuntu-2004-virtual-machine/
+
+system-monitor-next prerequisites for gnome
+sudo apt install gir1.2-gtop-2.0 gir1.2-nm-1.0 gir1.2-clutter-1.0 gnome-system-monitor
+
+install flatpak support
+sudo apt install flatpak gnome-software-plugin-flatpak
+sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+install snapd support
+sudo apt install snapd
+sudo snap install core
+
+flatpak apps
+brave browser - flatpak install flathub com.brave.Browser
+freetube - flatpak install flathub io.freetubeapp.FreeTube
+warehouse - flatpak install flathub io.github.flattool.Warehouse
+vlc - flatpak install flathub org.videolan.VLC
+flatseal - flatpak install flathub com.github.tchx84.Flatseal
+extension manager - flatpak install flathub com.mattjakeman.ExtensionManager
+steam - flatpak install flathub com.valvesoftware.Steam
+discord - flatpak install flathub com.discordapp.Discord
+
+curl installs
+	floorp install
+	curl -fsSL https://ppa.ablaze.one/KEY.gpg | sudo gpg –dearmor -o /usr/share/keyrings/Floorp.gpg
+	sudo curl -sS –compressed -o /etc/apt/sources.list.d/Floorp.list ‘https://ppa.ablaze.one/Floorp.list’
+	sudo apt update
+	sudo apt install floorp
+	
+	brave install
+	sudo apt install curl
+	sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+	echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+	sudo apt update
+	sudo apt install brave-browser
+	
+system suspend disable (debian, ubuntu, popos)
+sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+
+get thumbnails for video - ffmpegthumbnailer
+	for pop os, need additional lib - sudo apt-get install gstreamer1.0-libav
+	
+ubuntu server commands
+	to go into a desktop environment
+		startx
+	changing screen resolution
+		xrandr -s [resolution number]
+	changing screen brightness on laptop
+		xrandr | grep " connected"
+		#get monitor name
+		xrandr --output [monitor name] --brightness [brightness level from 0 to 1]
+		
+	etc/X11/xinit/xinitrc
+			
+
